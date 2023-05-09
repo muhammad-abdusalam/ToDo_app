@@ -1,4 +1,5 @@
 import Axios from "axios";
+import { serverUrl } from "../App";
 
 const TaksList = (props) => {
   // Handle edit
@@ -14,7 +15,7 @@ const TaksList = (props) => {
     } else {
       element.target.parentElement.classList.remove("completed");
     }
-    Axios.patch(`http://localhost:4000/api/tasks/${task._id}`, {
+    Axios.patch(`${serverUrl}/api/tasks/${task._id}`, {
       status: task.status === "active" ? "completed" : "active",
     })
       .then(() => {
@@ -25,7 +26,7 @@ const TaksList = (props) => {
 
   // Handle delete
   const deleteTask = async (id) => {
-    await Axios.delete(`http://localhost:4000/api/tasks/${id}`);
+    await Axios.delete(`${serverUrl}/api/tasks/${id}`);
     const remainTasks = props.tasks.filter((task) => {
       return task._id !== id;
     });

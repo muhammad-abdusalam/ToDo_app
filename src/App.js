@@ -7,6 +7,8 @@ import TaksList from "./components/TasksList";
 import AddTaskForm from "./components/AddTaskForm";
 import EditTaskForm from "./components/EditTaskForm";
 
+export const serverUrl = process.env.REACT_APP_SERVER_URL;
+
 function App() {
   const [tasks, setTasks] = useState([]);
   const [taskId, setTaskId] = useState("");
@@ -17,7 +19,7 @@ function App() {
   }, []);
 
   const getTasks = () => {
-    Axios.get("http://localhost:4000/api/tasks").then((response) => {
+    Axios.get(`${serverUrl}/api/tasks`).then((response) => {
       setTasks(response.data);
     });
   };

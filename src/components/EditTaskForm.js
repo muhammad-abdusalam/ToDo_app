@@ -1,4 +1,5 @@
 import Axios from "axios";
+import { serverUrl } from "../App";
 
 const EditTaskForm = (props) => {
   const editTaskTitle = (id) => {
@@ -6,7 +7,7 @@ const EditTaskForm = (props) => {
       const editDiv = document.querySelector(".edit-task-form");
       editDiv.classList.add("hidden");
 
-      Axios.patch(`http://localhost:4000/api/tasks/${id}`, {
+      Axios.patch(`${serverUrl}/api/tasks/${id}`, {
         title: props.taskTitle.trim(),
       })
         .then(() => {

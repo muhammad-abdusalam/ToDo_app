@@ -1,5 +1,6 @@
 import Axios from "axios";
 import { useState } from "react";
+import { serverUrl } from "../App";
 
 const AddTaskForm = (props) => {
   const [title, setTitle] = useState("");
@@ -10,7 +11,7 @@ const AddTaskForm = (props) => {
 
   const addTask = () => {
     if (title.trim() !== "") {
-      Axios.post("http://localhost:4000/api/tasks", {
+      Axios.post(`${serverUrl}/api/tasks`, {
         title: title.trim(),
       })
         .then(() => {

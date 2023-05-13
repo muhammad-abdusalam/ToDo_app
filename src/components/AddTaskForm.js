@@ -11,12 +11,20 @@ const AddTaskForm = (props) => {
 
   const addTask = () => {
     if (title.trim() !== "") {
-      Axios.post(`${serverUrl}/api/tasks`, {
-        title: title.trim(),
-      })
-        .then(() => {
+      Axios.post(
+        `${serverUrl}/api/tasks`,
+        {
+          title: title.trim(),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${props.user.token}`,
+          },
+        }
+      )
+        .then((response) => {
           setTitle("");
-          props.getTasks();
+          props.setTasks([...props.tasks, response.data]);
         })
         .catch((err) => console.log(err));
     }

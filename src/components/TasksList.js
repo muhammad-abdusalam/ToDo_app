@@ -1,5 +1,8 @@
 import Axios from "axios";
 import { serverUrl } from "../App";
+import trash from "./trash.svg";
+import edit from "./edit.svg";
+import done from "./done.svg";
 
 const TaksList = (props) => {
   // Handle edit
@@ -10,50 +13,71 @@ const TaksList = (props) => {
     props.setTaskTitle(title);
   };
   const editStatus = (task, element) => {
-    if (task.status === "active") {
-      element.target.parentElement.classList.add("completed");
+    if (element.parentElement.classList.contains("active")) {
+      element.parentElement.classList.add("completed");
+      element.parentElement.classList.remove("active");
     } else {
-      element.target.parentElement.classList.remove("completed");
+      element.parentElement.classList.remove("completed");
+      element.parentElement.classList.add("active");
     }
-    Axios.patch(`${serverUrl}/api/tasks/${task._id}`, {
-      status: task.status === "active" ? "completed" : "active",
-    })
+    Axios.patch(
+      `${serverUrl}/api/tasks/${task._id}`,
+      {
+        status: task.status === "active" ? "completed" : "active",
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${props.user.token}`,
+        },
+      }
+    )
       .then(() => {
         props.getTasks();
       })
       .catch((err) => console.log(err));
   };
-
   // Handle delete
   const deleteTask = async (id) => {
-    await Axios.delete(`${serverUrl}/api/tasks/${id}`);
     const remainTasks = props.tasks.filter((task) => {
       return task._id !== id;
     });
     props.setTasks(remainTasks);
+
+    await Axios.delete(`${serverUrl}/api/tasks/${id}`, {
+      headers: {
+        Authorization: `Bearer ${props.user.token}`,
+      },
+    });
   };
+
   return (
     <div className="tasks-list-container">
       <div className="tasks-list">
-        <h2>All Tasks</h2>
-        {props.tasks.length > 0 ? (
+        <h3>All Tasks</h3>
+        {!props.tasks ? (
+          <p>Loading...</p>
+        ) : props.tasks.length > 0 ? (
           props.tasks.map((task) => {
             return (
               <div className={`task ${task.status}`} key={task._id}>
-                <h3 className="task-title" onClick={(e) => editStatus(task, e)}>
-                  {task.title}
-                </h3>
+                <h3 className="task-title">{task.title}</h3>
                 <button
                   className="delete-btn"
-                  onClick={() => deleteTask(task._id)}
+                  onClick={(e) => deleteTask(task._id, e.currentTarget)}
                 >
-                  Delete
+                  <img src={trash} alt="" />
                 </button>
                 <button
                   className="edit-btn"
                   onClick={() => showEditDiv(task._id, task.title)}
                 >
-                  Edit
+                  <img src={edit} alt="" />
+                </button>
+                <button
+                  className="done-btn"
+                  onClick={(e) => editStatus(task, e.currentTarget)}
+                >
+                  <img src={done} alt="" />
                 </button>
               </div>
             );

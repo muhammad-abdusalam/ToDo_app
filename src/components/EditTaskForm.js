@@ -7,9 +7,17 @@ const EditTaskForm = (props) => {
       const editDiv = document.querySelector(".edit-task-form");
       editDiv.classList.add("hidden");
 
-      Axios.patch(`${serverUrl}/api/tasks/${id}`, {
-        title: props.taskTitle.trim(),
-      })
+      Axios.patch(
+        `${serverUrl}/api/tasks/${id}`,
+        {
+          title: props.taskTitle.trim(),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${props.user.token}`,
+          },
+        }
+      )
         .then(() => {
           props.getTasks();
         })

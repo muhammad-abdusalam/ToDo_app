@@ -1,10 +1,33 @@
-const Header = () => {
+import { Link } from "react-router-dom";
+
+const Header = (props) => {
+  const logout = () => {
+    localStorage.removeItem("todo-user");
+    props.setUser(null);
+  };
   return (
     <header>
+      <Link to="/">
+        <h1>ToDo List</h1>
+      </Link>
       <nav>
-        <a href="/">
-          <h1>To Do List</h1>
-        </a>
+        {!props.user ? (
+          <ul>
+            <li>
+              <Link to={"/login"}>Log in</Link>
+            </li>
+            <li>
+              <Link to={"/signup"}>Sign up</Link>
+            </li>
+          </ul>
+        ) : (
+          <>
+            <span className="user-name">{props.user.name}</span>
+            <button className="logout" onClick={logout}>
+              Log out
+            </button>
+          </>
+        )}
       </nav>
     </header>
   );

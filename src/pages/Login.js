@@ -17,26 +17,28 @@ const Login = (props) => {
 
   return (
     <div className="Login">
-      <h2>Log In</h2>
       {!loading ? (
-        <form className="login-form" onSubmit={handleSubmit}>
-          <label htmlFor="username">Username</label>
-          <input
-            id="username"
-            type="text"
-            onChange={(e) => setUsername(e.target.value)}
-            value={username}
-          />
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            type="password"
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
-          />
-          <button>Log in</button>
-          {error && <p className="error">{error}</p>}
-        </form>
+        <>
+          <h2>Log In</h2>
+          <form className="login-form" onSubmit={handleSubmit}>
+            <label htmlFor="username">Username</label>
+            <input
+              id="username"
+              type="text"
+              onChange={(e) => setUsername(e.target.value)}
+              value={username}
+            />
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              type="password"
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+            />
+            <button>Log in</button>
+            {error && <p className="error">{error}</p>}
+          </form>
+        </>
       ) : (
         <p className="loading">Loading...</p>
       )}

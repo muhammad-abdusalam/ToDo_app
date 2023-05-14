@@ -149,6 +149,10 @@ p.error {
   margin-top: 10px;
   color: indianred;
 }
+p.loading {
+  font-size: 30px;
+  margin-top: 150px;
+}
 
 /* Add task form */
 .add-task-form {

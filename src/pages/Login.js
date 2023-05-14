@@ -27,6 +27,7 @@ const Login = (props) => {
               type="text"
               onChange={(e) => setUsername(e.target.value)}
               value={username}
+              required
             />
             <label htmlFor="password">Password</label>
             <input
@@ -34,6 +35,7 @@ const Login = (props) => {
               type="password"
               onChange={(e) => setPassword(e.target.value)}
               value={password}
+              required
             />
             <button>Log in</button>
             {error && <p className="error">{error}</p>}

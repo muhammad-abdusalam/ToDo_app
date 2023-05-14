@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useSignup } from "../hooks/useSignup";
+import { Link } from "react-router-dom";
 
 const Signup = (props) => {
   const [name, setName] = useState("");
@@ -28,6 +29,7 @@ const Signup = (props) => {
               type="text"
               onChange={(e) => setName(e.target.value)}
               value={name}
+              required
             />
             <label htmlFor="username">Username</label>
             <input
@@ -35,6 +37,7 @@ const Signup = (props) => {
               type="text"
               onChange={(e) => setUsername(e.target.value)}
               value={username}
+              required
             />
             <label htmlFor="password">Password</label>
             <input
@@ -42,10 +45,12 @@ const Signup = (props) => {
               type="password"
               onChange={(e) => setPassword(e.target.value)}
               value={password}
+              required
             />
             <button>Sign up</button>
             {error && <p className="error">{error}</p>}
           </form>
+          <Link to={"/login"}>Already have an account?</Link>
         </>
       ) : (
         <p className="loading">Loading...</p>

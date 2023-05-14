@@ -17,7 +17,9 @@ const Header = (props) => {
               <Link to={"/login"}>Log in</Link>
             </li>
             <li>
-              <Link to={"/signup"}>Sign up</Link>
+              <Link to={"/signup"} className="signup">
+                Sign up
+              </Link>
             </li>
           </ul>
         ) : (

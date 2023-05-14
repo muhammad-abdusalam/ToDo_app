@@ -88,6 +88,13 @@ nav ul a {
   font-weight: bold;
   text-decoration: underline;
 }
+nav ul a.signup {
+  padding: 10px 15px;
+  border-radius: 6px;
+  background: #eee;
+  color: #5a5757;
+  text-decoration: none;
+}
 @media (max-width: 767px) {
   nav ul {
     column-gap: 10px;
@@ -113,6 +120,9 @@ nav ul a {
 }
 
 /* Signup && Login */
+.signup-form + a {
+  color: #009254;
+}
 .signup-form,
 .login-form {
   max-width: 500px;

@@ -3,8 +3,12 @@ import { serverUrl } from "../App";
 import trash from "./trash.svg";
 import edit from "./edit.svg";
 import done from "./done.svg";
+import { useNavigate } from "react-router-dom";
 
 const TaksList = (props) => {
+  const errorMsg = "Request is not authorized!";
+  const navigate = useNavigate();
+
   // Handle edit
   const showEditDiv = (id, title) => {
     const editDiv = document.querySelector(".edit-task-form");
@@ -34,7 +38,13 @@ const TaksList = (props) => {
       .then(() => {
         props.getTasks();
       })
-      .catch((err) => console.log(err));
+      .catch((error) => {
+        if (error.response.data.error === errorMsg) {
+          localStorage.removeItem("todo-user");
+          props.setUser(null);
+          navigate("/login");
+        }
+      });
   };
   // Handle delete
   const deleteTask = async (id) => {
@@ -43,11 +53,19 @@ const TaksList = (props) => {
     });
     props.setTasks(remainTasks);
 
-    await Axios.delete(`${serverUrl}/api/tasks/${id}`, {
-      headers: {
-        Authorization: `Bearer ${props.user.token}`,
-      },
-    });
+    try {
+      await Axios.delete(`${serverUrl}/api/tasks/${id}`, {
+        headers: {
+          Authorization: `Bearer ${props.user.token}`,
+        },
+      });
+    } catch (error) {
+      if (error.response.data.error === errorMsg) {
+        localStorage.removeItem("todo-user");
+        props.setUser(null);
+        navigate("/login");
+      }
+    }
   };
 
   return (

@@ -121,7 +121,8 @@ nav ul a.signup {
 
 /* Signup && Login */
 .signup-form + a {
-  color: #009254;
+  color: #128289;
+  font-weight: bold;
 }
 .signup-form,
 .login-form {
@@ -161,7 +162,7 @@ p.error {
 }
 p.loading {
   font-size: 30px;
-  margin-top: 150px;
+  margin-top: 200px;
 }
 
 /* Add task form */

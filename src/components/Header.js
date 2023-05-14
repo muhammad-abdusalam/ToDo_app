@@ -5,6 +5,7 @@ const Header = (props) => {
     localStorage.removeItem("todo-user");
     props.setUser(null);
   };
+
   return (
     <header>
       <Link to="/">

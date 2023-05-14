@@ -1,7 +1,11 @@
 import Axios from "axios";
 import { serverUrl } from "../App";
+import { useNavigate } from "react-router-dom";
 
 const EditTaskForm = (props) => {
+  const errorMsg = "Request is not authorized!";
+  const navigate = useNavigate();
+
   const editTaskTitle = (id) => {
     if (props.taskTitle.trim() !== "") {
       const editDiv = document.querySelector(".edit-task-form");
@@ -21,7 +25,13 @@ const EditTaskForm = (props) => {
         .then(() => {
           props.getTasks();
         })
-        .catch((err) => console.log(err));
+        .catch((error) => {
+          if (error.response.data.error === errorMsg) {
+            localStorage.removeItem("todo-user");
+            props.setUser(null);
+            navigate("/login");
+          }
+        });
     }
   };
 

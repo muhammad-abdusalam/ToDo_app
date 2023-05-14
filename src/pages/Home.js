@@ -5,11 +5,14 @@ import TaksList from "../components/TasksList";
 import AddTaskForm from "../components/AddTaskForm";
 import EditTaskForm from "../components/EditTaskForm";
 import { serverUrl } from "../App";
+import { useNavigate } from "react-router-dom";
 
 const Home = (props) => {
   const [tasks, setTasks] = useState(null);
   const [taskId, setTaskId] = useState("");
   const [taskTitle, setTaskTitle] = useState("");
+  const errorMsg = "Request is not authorized!";
+  const navigate = useNavigate();
 
   useEffect(() => {
     getTasks();
@@ -20,21 +23,32 @@ const Home = (props) => {
       headers: {
         Authorization: `Bearer ${props.user.token}`,
       },
-    }).then((response) => {
-      setTasks(response.data);
-    });
+    })
+      .then((response) => {
+        setTasks(response.data);
+        console.log("finish");
+      })
+      .catch((error) => {
+        if (error.response.data.error === errorMsg) {
+          localStorage.removeItem("todo-user");
+          props.setUser(null);
+          navigate("/login");
+        }
+      });
   };
 
   return (
     <div className="home">
       <AddTaskForm
         user={props.user}
+        setUser={props.setUser}
         getTasks={getTasks}
         tasks={tasks}
         setTasks={setTasks}
       />
       <TaksList
         user={props.user}
+        setUser={props.setUser}
         tasks={tasks}
         setTasks={setTasks}
         setTaskId={setTaskId}
@@ -43,6 +57,7 @@ const Home = (props) => {
       />
       <EditTaskForm
         user={props.user}
+        setUser={props.setUser}
         taskTitle={taskTitle}
         setTaskTitle={setTaskTitle}
         taskId={taskId}

@@ -79,6 +79,7 @@ const TaksList = (props) => {
             return (
               <div className={`task ${task.status}`} key={task._id}>
                 <h3 className="task-title">{task.title}</h3>
+                <span className="status">completed!</span>
                 <button
                   className="delete-btn"
                   onClick={(e) => deleteTask(task._id, e.currentTarget)}
